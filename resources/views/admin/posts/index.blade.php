@@ -4,45 +4,51 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mt-5">
-            <h1>post</h1>
+            <h1>I miei progetti</h1>
+            <div>
+                <a href="{{route('admin.posts.create')}}"> aggiungi nuovo progetto</a>
+            </div>
         </div>
  
         <div class="col-12 mt-5">
-             <table class="table table-stripped">
-                 <tr>
-                     <th>ID</th>
-                     <th>titolo</th>
-                     <th>slug</th>
-                     <th>strumenti</th>
-                 </tr>
+            <table class="table table-stripped">
+                <thead> <!-- Use thead to define table header -->
+                    <tr>
+                        <th>ID</th>
+                        <th>titolo</th>
+                        <th>slug</th>
+                        <th>strumenti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($posts as $post)
+                        <tr>
+                            <td>{{$post->id}}</td>
+                            <td>{{$post->title}}</td>
+                            <td>{{$post->slug}}</td>
+                            <td>
  
-             </table>
-        </div>
-         <tbody>
-             @foreach($posts as $post)
-                 <tr>
-                     <td>{{$post->id}}</td>
-                     <td>{{$post->title}}</td>
-                     <td>{{$post->slug}}</td>
-                     <td>
-                         <form action="" class="d-inline-block" method="POST">
-                             @csrf
-                             @method('DELETE')
-                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                         </form>
-                         <form action="" class="d-inline-block" method="POST">
-                            <a href="#" class="btn btn-sm btn-warning">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </form>
-                         
+                                <a href="{{route('admin.posts.show', $post->id)}}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{route('admin.posts.edit', $post->id)}}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                </a>
 
-                     </td>
-                 </tr>
-             @endforeach
-         </tbody>
+                                <form action="{{ route('admin.posts.destroy', $post->id) }}" class="d-inline-block" method="POST" onsubmit="return confirm('sei sicuro di voler eliminare questo post?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
 @endsection
 
 

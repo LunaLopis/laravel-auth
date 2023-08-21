@@ -21,9 +21,11 @@ Route::get('/', function () {
 });
 
 
-
+// middleware con autenticazione e verifica dati, 
+// prefisso admin, nome rotta admin. // group funzione che contiene tutte le rotte alle quali applicare i middleware 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function(){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // resource per definire set di rotte crud per posts.
     Route::resource('posts', PostController::class);
 });
 
