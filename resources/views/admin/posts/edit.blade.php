@@ -19,7 +19,7 @@
                 </ul>
             </div>
         @endif
-          <form action="{{ route('admin.posts.update', $post->id)}}" method="POST">
+          <form action="{{ route('admin.posts.update', $post->id)}}" method="POST" enctype="multipart/form-data">
             {{-- per provenienza richieste --}}
             @csrf
             {{-- metodo put/patch per update --}}
@@ -34,8 +34,17 @@
 
             <div class="form-group mt-4">
                 <label class="control-label">contenuto</label>
-                <textarea type="text" name="content" id="content" placeholder="contenuto"></textarea>
+                <textarea type="text" name="content" id="content" placeholder="contenuto" class="form-control @error('content') is-invalid @enderror"></textarea>
              </div>
+
+             <div class="form-group mt-4">
+                <div>
+                    <img src="{{ asset('storage/'.$post->cover_image)}}" width="500px">
+                </div>
+                <label class="control-label">immagine</label>
+                <input type="file" name="cover_image" id="cover_image" class="form-control @error('cover_image') is-invalid @enderror" placeholder="cover_image" value="{{ old('content')}}">
+             </div> 
+
              <div class="form-group mt-4">
                 <button type="submit" class="btn btn-success">Salva</button>
              </div>

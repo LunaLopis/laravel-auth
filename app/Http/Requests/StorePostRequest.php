@@ -31,7 +31,8 @@ class StorePostRequest extends FormRequest
     public function messages(){
         return [
             'title.required' => 'il titolo è obbligatorio',
-            'title.max' => 'il titolo deve essere lungo massimo 50 caratteri'
+            'title.max' => 'il titolo deve essere lungo massimo :max caratteri',
+            
         ];
     }
 }

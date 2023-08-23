@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -16,6 +17,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
+        // path, non nome della rotta
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -39,6 +41,10 @@ class PostController extends Controller
     {
         $form_data = $request->all();
         $post = new Post();
+        if($request->hasFile('cover_image')){
+            $path = Storage::put('cover_image', $form_data['cover_image']);
+            $form_data['cover_image'] = $path;
+        }
         
         $slug = $post->generateSlug($form_data['title']);
         // dd($slug);
@@ -82,6 +88,13 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         $form_data = $request->all(); 
+        if($request->hasFile('cover_image')){
+            if($post->cover_image){
+                Storage::delete($post->cover_image);
+            }
+            $path = Storage::put('post_image', $request->cover_image);
+            $form_data['cover_image'] = $path;
+        }
         // aggiorno slug, ma non serve save 
         $form_data['slug'] = $post->generateSlug($form_data['title']);
         $post->update($form_data);
@@ -97,6 +110,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('admin.posts.index');
+        $message = 'Cancellazione post completata';
+        return redirect()->route('admin.posts.index', ['message' => $message]);
     }
 }

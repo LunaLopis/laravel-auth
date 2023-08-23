@@ -24,7 +24,7 @@
             @csrf
             <div class="form-group mt-4">
                <label class="control-label">Titolo</label>
-               <input type="text" name="title" id="title" placeholder="titolo"  class="form-control @error('title')is-invalid @enderror"  >
+               <input type="text" name="title" id="title" placeholder="titolo"  class="form-control @error('title')is-invalid @enderror" value="{{old('title')}}"  >
                @error('title')
                <div class="text-danger"> {{$message}}</div>
                @enderror
@@ -32,8 +32,13 @@
 
             <div class="form-group mt-4">
                 <label class="control-label">contenuto</label>
-                <textarea type="text" name="content" id="content" placeholder="contenuto"></textarea>
+                <textarea type="text" name="content" id="content" placeholder="contenuto" class="form-control @error('content') is-invalid @enderror"></textarea>
              </div>
+
+             <div class="form-group mt-4">
+                <label class="control-label">immagine</label>
+                <input type="file" name="cover_image" id="cover_image" class="form-control @error('cover_image') is-invalid @enderror" placeholder="cover_image" value="{{ old('content')}}">
+             </div> 
              <div class="form-group mt-4">
                 <button type="submit" class="btn btn-success">Salva</button>
              </div>

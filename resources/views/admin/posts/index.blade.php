@@ -12,7 +12,7 @@
  
         <div class="col-12 mt-5">
             <table class="table table-stripped">
-                <thead> <!-- Use thead to define table header -->
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>titolo</th>
@@ -28,17 +28,17 @@
                             <td>{{$post->slug}}</td>
                             <td>
  
-                                <a href="{{route('admin.posts.show', $post->id)}}" class="btn btn-sm btn-warning">
+                                <a href="{{route('admin.posts.show', $post->id)}}" class="btn btn-sm btn-primary">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <a href="{{route('admin.posts.edit', $post->id)}}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-
+{{-- la rotta dove entrare per cancellare l'id selezionato; destroy funztion, mentre delete è il metodo --}}
                                 <form action="{{ route('admin.posts.destroy', $post->id) }}" class="d-inline-block" method="POST" onsubmit="return confirm('sei sicuro di voler eliminare questo post?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash" data-post-title='{{$post->title}}'></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -48,7 +48,7 @@
         </div>
     </div>
 </div>
-
+@include('admin.partials.modal_delete')
 @endsection
 
 
